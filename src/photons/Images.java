@@ -141,4 +141,58 @@ public class Images {
 		
 		return sb.toString();
 	}
+	
+	
+	public static int[][][] getSensor(String img, String ill) {
+		MatlabProxy proxy = MyMatlab.getConnection();
+		double[][][] javaArray = new double[1][1][1];
+		try {
+			int fNo = 2;
+			String file = 
+				  "sFile = fullfile(isetRootPath,'data','images','rgb','"+img+"')"; 
+				proxy.eval(file);
+				proxy.eval("scene = sceneFromFile(sFile,'rgb');");
+				proxy.eval("scene = sceneAdjustIlluminant(scene,'"+ill+"')");
+				proxy.eval("oi = oiCreate; optics = oiGet(oi,'optics');");
+				proxy.eval("optics = opticsSet(optics,'f number',"+fNo+");");
+				// temporarily skip lens. 
+//				proxy.eval("data = load('"+lens+"') ;");
+//				System.out.println("load "+lens+" ;"); 
+//				proxy.eval("optics = opticsSet(optics, 'transmittance', data);");
+//				proxy.eval("oi = oiSet(oi,'optics',optics);");
+//				proxy.eval("oi = oiCompute(scene,oi);");
+				//proxy.eval("rgb = sceneShowImageReturn(scene, 1, 0.6); ");
+//				if (rect == null)
+//					proxy.eval("roiRect = [0, 0, size(scene.data.photons, 2), size(scene.data.photons, 1)];");
+//				else
+//					proxy.eval("roiRect = ["+rect[0]+", "+rect[1]+", "+rect[2]+", "+rect[3]+"];");
+				proxy.eval("cSensor = sensorCreate('human');");
+				proxy.eval("eyehistogram = func_s_HumanSensor;");
+				proxy.eval("eyehistogram = cast(eyehistogram, 'double');");
+				
+//			proxy.eval("rgb = sceneShowImageReturn(scene, 1, 0.6); ");
+			
+			MatlabTypeConverter processor = new MatlabTypeConverter(proxy);
+		    MatlabNumericArray array = processor.getNumericArray("eyehistogram");
+		    
+		    javaArray = array.getRealArray3D();
+			
+		} catch (MatlabInvocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int[][][] returnArray = new int[javaArray.length]
+		                               [javaArray[0].length]
+		                               [javaArray[0][0].length]; 
+		for (int i = 0; i < javaArray.length; i++ ) {
+			for (int j = 0; j < javaArray[i].length; j++) {
+				for (int k = 0; k < javaArray[i][j].length; k++) {
+					returnArray[i][j][k] = (int) Math.round(javaArray[i][j][k]); 
+					if (returnArray[i][j][k] > 255)
+						System.out.println("wtf"); 
+				}
+			}
+		}
+		return returnArray;
+	}
 }

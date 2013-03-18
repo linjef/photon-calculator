@@ -186,6 +186,10 @@ $(document).ready(function () {
 		console.log(document.getElementById("photo").clientWidth+"px");
 		o.style.height = document.getElementById("photo").clientHeight+"px";
 	} 
+	function loadSensor() {
+		var txt = "<img id=\"photo\" src=\"create_sensor.jsp?img="+"hats.jpg"+"&ill="+"D65.mat"+"\" onload=\"loadImage()\" /> ";
+		document.getElementById("sensor_imageGoesHere").innerHTML=txt;
+	}
 </script>
 
 
@@ -312,6 +316,16 @@ $(document).ready(function () {
 	<h3>Calculated Irradiance</h3>
 	<p><h4 id="valueIrr">Value: </h4></p>
 	<div id="chartIrr" style="height:400px;"></div>
+</div>
+
+
+<div id="sensorImage">
+	<h3>Absorption histogram for the human eye</h3>
+	<p><h4 id="valueIrr">Chart (currently static): </h4></p>
+	<div id="sensor_imageGoesHere"  width: 700px; ">
+      <img id="photo" src="flower2.jpg" />
+    </div>
+    <button type="button" onclick="loadSensor(1)">Load sensor data</button>
 </div>
 
 <%--
