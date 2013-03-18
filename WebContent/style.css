@@ -1,0 +1,318 @@
+/*  
+Theme Name: WDL V3
+Theme URI: http://webdesignledger.com/
+Description: Web Design Ledger
+Version: 1.0.0
+Author: Henry Jones
+Author URI: http://webdesignledger.com
+
+Pruned, 2013-03-09 
+
+*/
+
+/* TABLE OF CONTENTS
+
+01 - Global Elements
+02 - Main Structure 
+04 - Main Content
+
+/*  01 - Global Elements -------------------------------------------------- */
+/*------------------------------------------------------------------- */
+
+body {
+	font-size:13px;
+	font-family: Arial, sans-serif;	
+	width:auto; height:auto;	
+	padding: 0;
+	margin: 0;
+	color: #4c4c4c;		
+	background: #fff url(images/background.jpg) repeat-x;	
+}
+
+
+p {
+	line-height:1.6em;
+	margin: 0 0 15px 0;	
+	font-size: 14px;
+}
+
+img {
+	margin: 0;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #2b8dc0;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+p a:hover {
+	text-decoration: underline;
+}
+
+h2 {	
+	margin: 0 0 15px 0;
+	font-family: â€œLucida Sans Unicodeâ€�, sans-serif;	
+	font-style: normal;
+	font-weight: normal;
+	text-transform: normal;	
+	line-height: 1.1em;
+	font-size: 40px;
+}
+
+h3 {	
+	margin: 0 0 15px 0px;
+	font-family: â€œLucida Sans Unicodeâ€�, sans-serif;	
+	font-style: normal;
+	font-weight: normal;
+	text-transform: normal;	
+	line-height: 1.1em;
+	font-size: 30px;
+}
+
+h4 {	
+	margin: 0 0 15px 0px;
+	font-family: â€œLucida Sans Unicodeâ€�, sans-serif;	
+	font-style: normal;
+	font-weight: normal;
+	text-transform: normal;	
+	line-height: 1.1em;
+	font-size: 20px;
+}
+
+h5 {	
+	margin: 0 0 15px 0px;
+	font-family: â€œLucida Sans Unicodeâ€�, sans-serif;	
+	font-style: normal;
+	font-weight: normal;
+	text-transform: normal;	
+	line-height: 1.3em;
+	font-size: 28px;
+}
+
+#content input[type="text"], #content textarea {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 5px;
+}
+
+
+
+/*  02 - Main Structure -------------------------------------------------- */
+/*------------------------------------------------------------------- */
+
+.post {
+	margin: 0 0 40px 0;	
+	position: relative;
+	border-bottom: 1px solid #dcdcdc;
+	padding-bottom: 15px;	
+}
+
+#content .page, #content .single{	
+	border: none;
+}
+
+#content .page h2{	
+	margin-bottom: 20px;
+	font-family: Georgia,"Nimbus Roman No9 L",serif;
+	font-style: italic;
+}
+
+
+.post h1{		
+		font-size: 40px;
+		line-height: 40px;		
+		color: #4c4c4c;
+		font-family: Georgia,"Nimbus Roman No9 L",serif;
+		font-style: italic;
+		letter-spacing: -1px;
+		margin: 0 10px 20px 0;
+		font-weight: normal;	
+}
+
+.post h1 a:link, .post h1 a:visited{
+	color: #4c4c4c;
+}
+
+.post h1 a:hover{
+	color: #2b8dc0;
+}
+
+.post h2 {	
+	margin: 55px 30px 15px 0;
+	font-size: 37px;
+	font-family: Georgia,"Nimbus Roman No9 L",serif;
+}
+
+
+.post h3 {	
+	margin: 35px 30px 15px 0;
+	font-size: 30px;
+	font-family: Georgia,"Nimbus Roman No9 L",serif;
+}
+
+.post h4 {	
+	margin: 35px 30px 15px 0;
+	font-size: 24px;
+	font-family: Georgia,"Nimbus Roman No9 L",serif;
+}
+
+.post h5 {	
+	margin: 35px 30px 15px 0;
+	font-size: 18px;
+	font-family: Arial, sans-serif;	
+	line-height: 1.3em;
+	font-weight: bold;
+}
+
+
+.post h2 a:hover {
+	color: #ca6d00;
+}
+
+
+/* Lists ----------- */
+
+#content ul, #content ol{
+	font-size: 14px;
+	margin: 0 35px 20px 0;
+}
+
+#content ul li{	
+	margin: 0 0 10px 0;
+	padding: 0 0 0 25px;
+	background: transparent url(images/bullet_blue.png) no-repeat 0 0px;
+	line-height: 1.4em;
+}
+
+#content ol li{	
+	margin: 0 0 10px 0;
+	padding: 0 0 0 15px;	
+	line-height: 1.4em;
+}
+
+
+/*Buttons////////////////////*/
+
+.button, input[type="submit"]{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;	
+	font-size: 12px;
+	background: #5c5c5c url(images/btn_bkg.png) repeat-x;	
+	display: inline-block;	
+	color: #fff!important;
+	text-decoration: none;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.3);	
+	position: relative;
+	cursor: pointer;
+	font-weight: bold;	
+	padding: 4px 15px 5px;	
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	margin: 0 5px 0 0;
+	border: none;	
+}
+
+/* preview */
+.demo p.instructions {
+	font-family: serif;
+	font-style: italic;
+	/* font-size: 90%; */
+	color: #666;
+	line-height: 130%;
+}
+
+
+div.frame {
+	background: #fff;
+	padding: 0.8em;
+	border: solid 2px #ddd;
+}
+
+/*@import "/css/project-common.css";*/
+
+table.list {
+	border-collapse: separate;
+	border: solid 1px #bbb;
+	background: #ccc;
+	border-spacing: 2px;
+}
+
+table.list td {
+	border-width: 0;
+	border-right: solid 1px #999;
+	border-bottom: solid 1px #999;
+	background: #eee;
+	padding: 0.4em 1em;
+}
+
+table.list th {
+  border-width: 0;
+  border-right: solid 1px #555;
+  border-bottom: solid 1px #555;
+  background: #bbb;
+  padding: 0.4em 1em;	
+}
+
+.post {
+  background: #ffffff;
+  border: solid 2px #ddd;
+  border-radius: 4px;
+  padding: 0.6em;
+}
+
+.demo {
+  background: #eee;
+  border: solid 2px #ddd;
+  border-radius: 4px;
+  padding: 0.6em;
+  display:inline-block;
+  width: 924px; 
+}
+
+.demo p {
+	padding: 0.3em 0.6em;
+	margin: 0.3em auto;
+}
+
+.demo p.instructions {
+	font-family: serif;
+	font-style: italic;
+	/* font-size: 90%; */
+	color: #666;
+	line-height: 130%;
+}
+
+.demo table td {
+	/* width: 6.5em; */
+}
+
+.demo table td {
+	padding-left: 1em;
+}
+
+.demo table td input {
+	width: 4em;
+	text-align: right;
+}
+
+div.frame {
+	background: #fff;
+	padding: 0.8em;
+	border: solid 2px #ddd;
+}
+
+div#content {
+  margin: auto;
+  margin-bottom: 0;
+  padding: 1em 5px 1.8em 5px;
+  width: 960px;
+}
+
+div#content h1 {
+	margin-top: 0;
+}
