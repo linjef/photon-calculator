@@ -5,15 +5,30 @@
 %><%@ page import="javax.swing.JPanel"
 %><%@ page import="photons.*"
 %><%
+String fNo = request.getParameter("f");
+String l = request.getParameter("l");
+int[] into = null; 
+if (request.getParameterMap().containsKey("x1")) {
+	int x1 = Integer.parseInt(request.getParameter("x1"));
+	int y1 = Integer.parseInt(request.getParameter("y1"));
+	int w = Integer.parseInt(request.getParameter("w"));
+	int h = Integer.parseInt(request.getParameter("h"));
+	into = new int[]{x1, y1, w, h};
+}
+
 String wantedImage = request.getParameter("img");
 String wantedIll = request.getParameter("ill");
 if (wantedIll == null) {
 	wantedIll = "D65.mat";
 	System.out.println("wtfmissingill");
 }
+if (wantedImage == null) {
+	wantedImage = "hats.jpg";
+	System.out.println("wtfmissingimg");
+}
 System.out.println("wantedImage");
 System.out.println("wantedIll");
-int[][][] rgbArray = Images.getSensor(wantedImage, wantedIll);
+int[][][] rgbArray = Images.getSensor(wantedImage, wantedIll, into, fNo, l);
 int WIDTH = rgbArray[0].length; 
 int HEIGHT = rgbArray.length;
 

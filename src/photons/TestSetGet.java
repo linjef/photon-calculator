@@ -3,6 +3,12 @@ import matlabcontrol.*;
 import matlabcontrol.extensions.*;
 
 public class TestSetGet {
+	/**
+	 * An example of what MatlabControl can do, and how it can do it. 
+	 * @param args
+	 * @throws MatlabConnectionException
+	 * @throws MatlabInvocationException
+	 */
 	public static void main(String[] args) throws MatlabConnectionException, MatlabInvocationException
 	{
 	    //Create a proxy, which we will use to control MATLAB

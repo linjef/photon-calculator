@@ -54,6 +54,9 @@ $(document).ready(function () {
 	window.plot2 = $.jqplot('chartIrr',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
 	window.plot3 = $.jqplot('chartRad',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
 	ChangeIll(1); 
+	$('.helpDiv').toggle("slow");// hide help items. 
+	loadSensor(1); 
+	loadOpticsImage(1);
 });
 
 </script>
@@ -179,6 +182,9 @@ $(document).ready(function () {
 		var irr = (window.plot2.data)[0].reduce(function(a, b){return [a[0]+b[0],a[1] + b[1]];});
 		irr = irr[1]*10;
 		document.getElementById("valueIrr").innerHTML="Value over 400-700nm: "+irr+" photons / s / m^2";
+		
+		loadSensor(1); 
+		loadOpticsImage();
 	} 
 	function loadImage() {
 		var o = document.getElementById("imageGoesHere");
@@ -187,18 +193,182 @@ $(document).ready(function () {
 		o.style.height = document.getElementById("photo").clientHeight+"px";
 	} 
 	function loadSensor() {
-		var txt = "<img id=\"photo\" src=\"create_sensor.jsp?img="+"hats.jpg"+"&ill="+"D65.mat"+"\" onload=\"loadImage()\" /> ";
+		var lens = $('input:radio[name=lens]:checked').val();
+		var fNo = document.getElementById("fNo").value; 
+		var imgName = $('input:radio[name=group1]:checked').val();
+		var ill = $('input:radio[name=ill]:checked').val();
+		if (ill==undefined) {
+			ill = "D65.mat";
+		}
+		if (imgName==undefined) {
+			imgName = "hats.jpg";
+		}		
+		
+		if ($('#x1').val() == "-") { 
+			var txt = "<img id=\"photo\" src=\"create_sensor.jsp?img="+imgName+"&ill="+ill+"&f="+fNo+"&l="+lens+"\" onload=\"loadImage()\" /> ";
+		}
+		else {
+			var txt = "<img id=\"photo\" src=\"create_sensor.jsp?img="+imgName+"&ill="+ill+"&f="+fNo+"&l="+lens+"&x1="+$('#x1').val()+"&y1="+$('#y1').val()+"&w="+$('#w').val()+"&h="+$('#h').val()+"\" onload=\"loadImage()\" /> ";
+		}
 		document.getElementById("sensor_imageGoesHere").innerHTML=txt;
+	}
+	function loadOpticsImage() {
+		var lens = $('input:radio[name=lens]:checked').val();
+		var fNo = document.getElementById("fNo").value; 
+		var imgName = $('input:radio[name=group1]:checked').val();
+		var ill = $('input:radio[name=ill]:checked').val();
+		if (ill==undefined) {
+			ill = "D65.mat";
+		}
+		if (imgName==undefined) {
+			imgName = "hats.jpg";
+		}		
+		
+		if ($('#x1').val() == "-") { 
+			var txt = "<img id=\"photo\" src=\"create_optics.jsp?img="+imgName+"&ill="+ill+"&f="+fNo+"&l="+lens+"\" onload=\"loadImage()\" /> ";
+		}
+		else {
+			var txt = "<img id=\"photo\" src=\"create_optics.jsp?img="+imgName+"&ill="+ill+"&f="+fNo+"&l="+lens+"&x1="+$('#x1').val()+"&y1="+$('#y1').val()+"&w="+$('#w').val()+"&h="+$('#h').val()+"\" onload=\"loadImage()\" /> ";
+		}
+		document.getElementById("optics_imageGoesHere").innerHTML=txt;
+	}
+</script>
+
+<script> // script uses tutorial from http://monc.se/wp-content/uploads/shade.png
+	var btn = { init : function() {
+		console.log('doing btn');
+		if (!document.getElementById || !document.createElement || 
+				!document.appendChild) 
+			return false; 
+		as = btn.getElementsByClassName('btn(.*)'); 
+		for (i=0; i<as.length; i++) { 
+			if ( as[i].tagName == "INPUT" && 
+					( as[i].type.toLowerCase() == "submit" || 
+							as[i].type.toLowerCase() == "button" ) ) { 
+				var tt = document.createTextNode(as[i].value); 
+				var a1 = document.createElement("a"); 
+				a1.className = as[i].className; 
+				a1.id = as[i].id; 
+				as[i] = as[i].parentNode.replaceChild(a1, as[i]); 
+				as[i] = a1; as[i].style.cursor = "pointer"; }
+			else if (as[i].tagName == "A") { 
+				var tt = as[i].firstChild; } 
+			else { return false }; 
+			var i1 = document.createElement('i'); 
+			var i2 = document.createElement('i'); 
+			var s1 = document.createElement('span'); 
+			var s2 = document.createElement('span'); 
+			s1.appendChild(i1); s1.appendChild(s2); 
+			s1.appendChild(tt); as[i].appendChild(s1); 
+			as[i] = as[i].insertBefore(i2, s1); }},
+		findForm : function(f) { 
+			while(f.tagName != "FORM") { f = f.parentNode; } 
+			return f; }, 
+		addEvent : function(obj, type, fn) { 
+			console.log('adding event2:!');
+			console.log(obj);
+			console.log(type);
+			console.log(fn);
+			if (obj.addEventListener) { 
+				obj.addEventListener(type, fn, false); } 
+			else if (obj.attachEvent) { 
+				obj["e"+type+fn] = fn; 
+				obj[type+fn] = function() { 
+					obj["e"+type+fn]( window.event ); } 
+				obj.attachEvent("on"+type, obj[type+fn]); } }, 
+		getElementsByClassName : function(className, tag, elm) { 
+			var testClass = new RegExp("(^|\s)" + className + "(\s|$)"); 
+			var tag = tag || "*"; var elm = elm || document; 
+			var elements = (tag == "*" && elm.all)? elm.all : elm.getElementsByTagName(tag); 
+			var returnElements = []; var current; 
+			var length = elements.length; 
+			for(var i=0; i<length; i++){ 
+				current = elements[i]; 
+				if(testClass.test(current.className)){ returnElements.push(current); } } 
+			return returnElements; } }
+	btn.init();
+</script>
+<script>
+	function showHelp() {
+		console.log('button hit!');
+		$('.helpDiv').toggle("slow");
 	}
 </script>
 
 
 </head>
 <body>
+<div id="helpbar">
+<a href="#" class="btn green" id="submit_btn" onclick="showHelp()">Help?</a>
+
+</div>
 <div id="content" class="container">
 <div class="post single">
 <h1>Psych 221: Photon Calculator</h1>
 <h3>Choose a sample image -- scene radiance will be extrapolated</h3>
+<div class="helpDiv">
+	<p>
+		What is scene radiance? Instead of answering this immediately, we can first start
+		by defining two other radiometric units first.
+	</p>
+	<p>
+		Radiant flux is a measure of all captured light from a point source--it is as if 
+		you placed a large sphere around a point source and measured exactly how much
+		energy impinged upon this sphere. Therefore, it has units that correspond to
+		how much light is emitted from a point: joules (energy) per second (time) per 
+		nanometer (wavelength). 
+	</p>
+	<p>
+		As you'll soon see, all radiometric units are a function of wavelength 
+		(and thus will have nanometers in their denominator). 
+	</p>
+	<p>
+		Radiant intensity is a measure of light emitted from a point source into
+		a solid angle. A solid angle is the surface area on the unit sphere
+		intersected by a cone (with its apex at the center of the unit sphere).  
+	</p>
+	<p align="center">
+		<img src="images/steradian.png" title="Image sourced from Wikipedia"></img>  
+	</p>
+	<p>
+		The surface area of this intersection can be measured in steradians, as 
+		seen in the image above. A sphere is 4pi steradians. As a result, radiant intensity
+		has units of: joules (energy) per second (time) per nanometer (wavelength) per steradian
+		(solid angle).   
+	</p>
+	<p>
+		Finally, we get to spectral radiance. Spectral radiance adds in another dimension--that
+		of an extended source with a particular viewing angle. As you know, a light seen head-on
+		throws more photons into your eye than does a light seen from a perpendicular angle. 
+	</p>
+	<p align="center">
+		<img src="images/radiance.png" title="Image sourced from Professor Wandell's slides"></img>  
+	</p>
+	<p>
+		Furthermore, we are no longer dealing with a point source--instead we are dealing with
+		a source that is flat on a surface, and has some dimension (and area). Thus, this unit
+		is radiant intensity as a function of surface area and angle; thus, it is radiant intensity
+		divided by the source area and cosine of the viewing angle. Spectral radiance has units 
+		of joules (energy) per second (time) per nanometer (wavelength) per steradian
+		(solid angle) per meter-squared (area). 
+	</p>
+	<p>
+		Spectral radiance is a good count of how much light comes from an extended source in a given direction. 
+		As you may expect, spectral radiance normally is expensive to measure--digital cameras images, for example, 
+		are a better representation of spectral irradiance (which we will get to later). Spectral radiance is normally
+		measured by spectroradiometric measurers (such as a Photoresearch PR-655, which has some optics and a diffraction grating on a photodetector); 
+		however, in this tutorial, we will be able to 
+		transform normal Jpeg images into radiance measurements using software developed by Professor Wandell and 
+		Dr. Farrell, VSET. Using the sceneFromFile function, a spectral measurement is extrapolated by using
+		an image and a calibration illumination image. 
+	</p>
+	<p>
+		In summary:  
+	</p>
+	<p align="center">
+		<img src="images/radiancesummary.png" title="Image sourced from Professor Wandell's slides" width="600px"></img>  
+	</p>
+</div>
 <form name="imgSelect"">
 <div align="center"><br>
 	<input type="radio" name="group1" value="eagle.jpg" onclick="ChangeIll(1)">Eagle
@@ -209,6 +379,24 @@ $(document).ready(function () {
 </form>
 
 <h3>Choose an illuminant</h3>
+<div class="helpDiv">
+	<p>
+		What is an illuminant? Illuminants are a function of wavelength (and can be measured in relative energy) 
+		which represent the spectral quality of a white light source in a scene. You see everyday examples 
+		in just your house; fluorescent and incandescent light have different spectral qualities,  for example:  
+	</p>
+	<p align="center">
+		<img src="images/colortempcomparison.png" title="Image sourced from Wikipedia"></img>  
+	</p>
+	<p>
+		Three common CIE-defined illuminants follow: D65 (representative of noon daylight), 
+		fluorescent (cool white fluorescent, similar to what is used in offices), and 
+		tungsten/incandescent light sources (often found in homes).  
+	</p>
+	<p>
+		VSET will take your selection and apply it to the scene chosen above. 
+	</p>
+</div>
 <form name="illSelect"">
 <div align="center"><br>
 	<input type="radio" name="ill" value="D65.mat" onclick="ChangeIll(1)" checked>D65
@@ -219,7 +407,14 @@ $(document).ready(function () {
 </form>
 
 <h3>Choose a region</h3>
-
+<div class="helpDiv">
+	<p>
+		Choose a region of interest to perform calculations on.  
+	</p>
+	<p>
+		This region applies to radiance/irradiance calculations, but not to the sensor calculation as of yet. 
+	</p>
+</div>
 <div class="container demo">
   <div style="float: left; width: 70%;">
     <p class="instructions">
@@ -286,11 +481,43 @@ $(document).ready(function () {
 
 <div id="radiance">
 	<h3>Extrapolated Radiance</h3>
+	<div class="helpDiv">
+	<p>
+		Radiance is now shown here, as extrapolated by VSET from the Jpeg file. 
+	</p>
+	<p>
+		Note that, in this case, the units are with respect to photons instead of to joules (energy). 
+		However, you can always do a calculation of energy from the wavelength of a photon, or do it backwards
+		(photon to energy).  
+	</p>
+	</div>
 	<p><h4 id="valueRad">Value: </h4></p>
 	<div id="chartRad" style="height:400px;"></div>
 </div>
 
 <h3>Choose a lens (for transmission calculations)</h3>
+	<div class="helpDiv">
+	<p>
+		Up to now, everything has been calculated using only the scene. Now, we can consider adding in
+		optics to the equation(s). A lens stands in between a source of light and a sensor of light, and 
+		often changes the spectral quality of the light.  
+	</p>
+	<p>
+		The lens quantities you can work with here are that of transmittance and of f/# (as we are assuming 
+		diffraction-limited optics). A uniform transmittance lens has uniform transmittance, while glass, CR-39, and 
+		the Nikon 55mm have their own characteristic transmittance curves. They do, of course, strive to be 
+		uniform transmittance lenses, as otherwise the scene can be tinted particular colors. The Nikon's transmittance is shown below:   
+	</p>
+	<p align="center">
+		<img src="images/lens.gif"></img>
+	</p>
+	<p>
+		For fun, there are also a set of filters with less-uniform transmittances to choose from (from left to right, 02 to 16):    
+	</p>
+	<p align="center">
+		<img src="images/filters.gif"></img>
+	</p>
+	</div>
 <form name="lensSelect"">
 <div align="center"><br>
 	<input type="radio" name="lens" value="uniformTrans.dat" onclick="ChangeIll(0)" checked>Uniform transmittance
@@ -313,19 +540,160 @@ $(document).ready(function () {
 </form>
 
 <div id="irradiance">
+	<div class="helpDiv">
+	<p>
+		Now, image irradiance can be calculated from scene radiance. Optics (lenses) as above turn 
+		radiance into irradiance, which is a measure of how much light gets onto an image sensor. 
+		It can be explained as the light density incident on a plane.  
+	</p>
+	<p>
+		The basic irradiance formula used in this calculation is:     
+	</p>
+	<p align="center">
+		<img src="images/irradianceformula.png" title="Sourced from Professor Wandell's slides"></img>
+	</p>
+	<p>
+		Where E is the calculated irradiance, T is transmittance, m is the magnification of the 
+		lens, and L is the scene radiance.     
+	</p>
+	<p>
+		Furthermore, most lenses will suffer from vignetting, or cos-4th fall-off. Essentially, 
+		light in the corners of a lens will be less well-captured: 
+	</p>
+	<p align="center">
+		<img src="images/vignetting.png" title="Sourced from Professor Wandell's slides"></img>
+	</p>
+	<p>
+		And, as foreshadowed earlier, we will have spatial blurring from the lens, which will be 
+		modeled with a diffraction-limited optics equation: 
+	</p>
+	<p align="center">
+		<img src="images/diffraction.png" title="Sourced from Professor Wandell's slides" width="600px"></img>
+	</p>
+	<p>
+		Real lenses in fact have many distortions (unfortunately) and are not diffraction-limited. 
+		For example, you probably have seen fish-eye lenses, which are no longer rectilinear in their
+		output, but instead have a strong hemispherical distortion. Lenses often have chromatic aberration, 
+		in which different wavelengths of light impinge on different parts of the desired sensor target. 
+		A few common examples are illustrated below: 
+	</p>
+	<p align="center">
+		<img src="images/lensproblems.png" title="Sourced from Professor Wandell's slides"  width="600px"></img>
+	</p>
+	</div>
+	
 	<h3>Calculated Irradiance</h3>
 	<p><h4 id="valueIrr">Value: </h4></p>
 	<div id="chartIrr" style="height:400px;"></div>
 </div>
 
+<div id="opticsImage">
+	<h3>Image from VSET's oi</h3>
+	<div class="helpDiv">
+	<p>
+		Here's a representation of what the sensor will soon see, as given by VSET's 
+		oi object. Play around with the filters to see bigger results; for example, 
+		Filter 14 should give an astoundingly red image. 
+	</p>
+	</div>
+	<p><h4>Image: </h4></p>
+	<div id="optics_imageGoesHere"  width="700px"  align="center">
+      <img id="photo" src="flower2.jpg" />
+    </div>
+    <button type="button" onclick="loadOpticsImage(1)">Reload data</button>
+</div>
+
 
 <div id="sensorImage">
 	<h3>Absorption histogram for the human eye</h3>
-	<p><h4 id="valueIrr">Chart (currently static): </h4></p>
-	<div id="sensor_imageGoesHere"  width: 700px; ">
+	<div class="helpDiv">
+	<p>
+		Here's a basic sensor: the human eye! Actually, sadly/happily, the human eye is not really
+		that basic; it's actually quite sophisticated. 
+	</p>
+	<p>
+		As you can see in the chart, there are red bars, green bars, and blue bars. These are plotted 
+		using a tutorial in VSET called s_HumanSensor, which constructs optics and sensors that correspond
+		roughly to the human eye. The red, green, and blue bars correspond to L, M, and S cones in the eye. 
+		These are absorption histograms corresponding to these cones, with a little dark current, 
+		read noise, and some photon noise.   
+	</p>
+	<p align="center">
+		<img src="images/retina.png" title="Sourced from Professor Wandell's slides" width="600px"></img>
+	</p>
+	<p>
+		In the back of the human eye is the retina, which has a photoreceptor mosaic (as above) formed of L, M, and S cones, as 
+		well as rods. Rods are used primarily for low-light (scotopic) vision, and have very little role in color vision. 
+		However, L, M, and S cones are able to react to light of different frequency, thus forming the basis of color vision.
+		Rods have the common pigment rhodopsin, while cones each have three different pigments and also sizes.   
+	</p>
+	<p>
+		As the colors may have perhaps indicated, each cone type corresponds to a sensitivity to a particular wavelength of light:  
+	</p>
+	<p align="center">
+		<img src="images/conesensitivity.png" title="Sourced from Professor Wandell's slides"></img>
+	</p>
+	<p>
+		And thus, we build a histogram much as expected: 
+	</p>
+	</div>
+	<p><h4>Chart: </h4></p>
+	<div id="sensor_imageGoesHere"  width="700px"  align="center">
       <img id="photo" src="flower2.jpg" />
     </div>
-    <button type="button" onclick="loadSensor(1)">Load sensor data</button>
+    <button type="button" onclick="loadSensor(1)">Reload sensor data</button>
+</div>
+
+<script>
+function sensorGet(t) {
+	// t.disabled=true;
+	var xmlhttp;
+	var txt = $('#getSensorText').val();
+	if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	} else {// code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function() {
+		//console.log(xmlhttp.responseText);
+	  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		//console.log(xmlhttp.responseText);
+	    //$('#sensor_putGetData').innerhtml=xmlhttp.responseText;
+	    document.getElementById("sensor_putGetData").innerHTML=xmlhttp.responseText;
+	}
+	}
+	xmlhttp.open("GET","sensor_get.jsp?c="+txt,true);
+	xmlhttp.send();
+}; 
+</script>
+
+<div id="sensorGet">
+	<h3>Get statistics from the sensor/optics/scene</h3>
+	<div class="helpDiv">
+	<p>
+		Advanced users may wish to type in a VSET sensorGet/oiGet/sceneGet command in order to 
+		find statistics on the respective objects that have been created in this tutorial.
+		For example, you may try (no semicolon please!): 
+	</p>
+	<p>
+		<code>sensorGet(sensor, 'name')</code>
+		<code>sensorGet(sensor, 'type')</code>
+		<code>sensorGet(sensor, 'height')</code>
+		<code>sensorGet(sensor, 'volts') // for the adventurous!</code>
+	</p>
+	</div>
+	<p><h4>Command:</h4></p>
+	  <p><input type="text" id="getSensorText" style="width: 600px;" /></p>
+	  <p><button type="button" onclick="sensorGet(this)">Submit request</button></p>
+	<p><h4>Data:</h4></p>
+	<div id="sensor_getData"  width: 700px; >
+      <p id="sensor_putGetData"><code>awaiting input</code></p>
+    </div>
+    <%--<p><h4>Relevant chart: </h4></p>
+	<div id="sensor_getDataChart"  width: 700px; ">
+      <img id="photo" src="flower2.jpg" />
+    </div>
+    <button type="button" onclick="getSensor(1)">Get sensor data</button> --%>
 </div>
 
 <%--

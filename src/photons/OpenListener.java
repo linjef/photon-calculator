@@ -25,14 +25,30 @@ public class OpenListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent arg0) {
         // open up the matlab connection and store it. forever, hopefully
+    	// does this per server (i.e. this is the limit on multi-user support)
     	MatlabProxy proxy = MyMatlab.getConnection();
     	
     	try{
-	    	proxy.eval("cd E:\\SkyDrive\\Documents\\MATLAB\\");
+    		String os = OSCheck.getOS();
+    		if (os.equals("windows")) {
+    			proxy.eval("cd E:\\SkyDrive\\Documents\\MATLAB\\");
+    		}
+    		else {
+    			// change this for deployment to other Linux users.
+    			proxy.eval("cd /home/linjef");
+    		}
 		    
 		    Object[] pwd = proxy.returningEval("pwd", 1);
 		    System.out.println("MATLAB Directory: " + pwd[0]);
 		    
+		    // run startup to pick up VSET mappings
+		    // startup.m will be in Matlab directory and look like: 
+		    /*
+		     * 	oldFolder = cd('./iset-4.0');
+		     *  isetPath(pwd);
+		     *  cd(oldFolder)
+		     */
+		    // nice and simple!
 		    proxy.eval("startup");
     	} catch (Exception e) {
 			e.printStackTrace();
