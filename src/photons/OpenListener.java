@@ -12,7 +12,7 @@ import matlabcontrol.*;
  */
 @WebListener
 public class OpenListener implements ServletContextListener {
-
+final public static String showFigures = "off";  
     /**
      * Default constructor. 
      */
@@ -50,6 +50,8 @@ public class OpenListener implements ServletContextListener {
 		     */
 		    // nice and simple!
 		    proxy.eval("startup");
+		    // now contemplate making figures invisible for a while: 
+		    proxy.eval("set(0, 'DefaultFigureVisible', '"+showFigures+"');"); 
     	} catch (Exception e) {
 			e.printStackTrace();
 		}

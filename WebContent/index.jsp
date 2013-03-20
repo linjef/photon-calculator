@@ -676,10 +676,10 @@ function sensorGet(t) {
 		For example, you may try (no semicolon please!): 
 	</p>
 	<p>
-		<code>sensorGet(sensor, 'name')</code>
-		<code>sensorGet(sensor, 'type')</code>
-		<code>sensorGet(sensor, 'height')</code>
-		<code>sensorGet(sensor, 'volts') // for the adventurous!</code>
+		<code>sensorGet(sensor, 'name')</code> <br></br>
+		<code>sensorGet(sensor, 'type')</code> <br></br>
+		<code>sensorGet(sensor, 'height')</code> <br></br>
+		<code>sensorGet(sensor, 'volts') // for the adventurous!</code> <br></br>
 	</p>
 	</div>
 	<p><h4>Command:</h4></p>
