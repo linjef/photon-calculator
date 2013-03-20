@@ -249,4 +249,44 @@ public class Images {
 		}
 		return returnArray;
 	}
+	public static int[][][] getRandomImage() {
+		MatlabProxy proxy = MyMatlab.getConnection();
+		double[][][] javaArray = new double[1][1][1];
+		try {
+//			img = "hats.jpg";
+//			ill = "D65.mat";
+//			fNo = "2";
+//			lens = "glassTrans.dat"; 
+
+  
+				
+				proxy.eval("apicture = hardcopy(gcf, '-Dzbuffer', '-r0');");
+				
+				proxy.eval("apicture = cast(apicture, 'double');");
+				
+//			proxy.eval("rgb = sceneShowImageReturn(scene, 1, 0.6); ");
+			
+			MatlabTypeConverter processor = new MatlabTypeConverter(proxy);
+		    MatlabNumericArray array = processor.getNumericArray("apicture");
+		    
+		    javaArray = array.getRealArray3D();
+			
+		} catch (MatlabInvocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int[][][] returnArray = new int[javaArray.length]
+		                               [javaArray[0].length]
+		                               [javaArray[0][0].length]; 
+		for (int i = 0; i < javaArray.length; i++ ) {
+			for (int j = 0; j < javaArray[i].length; j++) {
+				for (int k = 0; k < javaArray[i][j].length; k++) {
+					returnArray[i][j][k] = (int) Math.round(javaArray[i][j][k]); 
+					if (returnArray[i][j][k] > 255)
+						System.out.println("wtf"); 
+				}
+			}
+		}
+		return returnArray;
+	}
 }

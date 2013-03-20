@@ -665,6 +665,13 @@ function sensorGet(t) {
 	xmlhttp.open("GET","sensor_get.jsp?c="+txt,true);
 	xmlhttp.send();
 }; 
+function getImageFromText(t) {
+	// t.disabled=true;
+	var xmlhttp;
+	var txt = $('#makeImageText').val();
+	var txt2 = "<img id=\"achartmadebyyou\" src=\"image_get.jsp?c="+txt+"\"  /> ";
+	document.getElementById("sensor_getDataChart").innerHTML=txt2;
+}; 
 </script>
 
 <div id="sensorGet">
@@ -689,11 +696,23 @@ function sensorGet(t) {
 	<div id="sensor_getData"  width: 700px; >
       <p id="sensor_putGetData"><code>awaiting input</code></p>
     </div>
-    <%--<p><h4>Relevant chart: </h4></p>
+    <p><h4>Relevant chart: </h4></p>
+    <div class="helpDiv">
+	<p>
+		Really advanced users can try to get some image out of the server. 
+		But, then, why aren't you just doing this yourself in Matlab? 
+	</p>
+	<p> Here's an example: 
+	</p>
+	<p>
+		<code>params.sz =  [200 200]; rgbDensities = [0 0 2 1]; rgbDensities = rgbDensities/sum(rgbDensities); params.rgbDensities = rgbDensities; sensor = sensorCreate('human',[],params); sensorConePlot(sensor); title('Protan cone mosaic');</code> <br></br>
+	</p>
+	</div>
+    <p><input type="text" id="makeImageText" style="width: 600px;" /></p>
 	<div id="sensor_getDataChart"  width: 700px; ">
       <img id="photo" src="flower2.jpg" />
     </div>
-    <button type="button" onclick="getSensor(1)">Get sensor data</button> --%>
+    <button type="button" onclick="getImageFromText(1)">Submit request</button>
 </div>
 
 <%--
