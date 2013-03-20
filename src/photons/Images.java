@@ -217,7 +217,7 @@ public class Images {
 			System.out.println(fNo);
 			System.out.println(lens);
 			
-
+  
 				proxy.eval("vcAddAndSelectObject(oi); ");
 				proxy.eval("img = oiGet(oi,'photons');rgb = imageSPD(img,oiGet(oi,'wavelength'));ieViewer(rgb);");
 				proxy.eval("apicture = hardcopy(gcf, '-Dzbuffer', '-r0');");
